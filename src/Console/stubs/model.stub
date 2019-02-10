@@ -1,0 +1,62 @@
+<?php
+
+namespace DummyNamespace;
+
+use ZablockiBros\Jetpack\Models\Item;
+
+class DummyClass extends Item
+{
+    /**
+     * @var array
+     */
+    protected $itemAttributes = [
+        //'sample_attr' => 'default_value',
+    ];
+
+    /**
+     * @var array
+     */
+    protected $casts = [
+        //'sample_attr' => 'string',
+    ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    //public function spouse()
+    //{
+    //    return $this->itemable(Spouse::class);
+    //}
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+     */
+    //public function car()
+    //{
+    //    return $this->item(Car::class);
+    //}
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    //public function shoes()
+    //{
+    //    return $this->items(Shoe::class);
+    //}
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    //public function children()
+    //{
+    //    return $this->manyItems(Child::class);
+    //}
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    //public function parents()
+    //{
+    //    return $this->byManyItems(Parent::class);
+    //}
+}

@@ -2,6 +2,7 @@
 
 namespace ZablockiBros\Jetpack;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class JetpackServiceProvider extends ServiceProvider
@@ -20,7 +21,10 @@ class JetpackServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->commands([
+            Console\MakeModel::class,
+            Console\MakeController::class,
+        ]);
     }
 
     /**
@@ -51,5 +55,29 @@ class JetpackServiceProvider extends ServiceProvider
         $this->mergeConfigFrom($source, 'sluggable');
 
         return;
+    }
+
+    /**
+     * todo
+     *
+     * Register the package routes.
+     */
+    protected function registerRoutes()
+    {
+        Route::group($this->routeConfiguration(), function () {
+            $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+        });
+    }
+
+    /**
+     * @return array
+     */
+    protected function routeConfiguration()
+    {
+        return [
+            'namespace'  => 'ZablockiBros\Jetpack\Http\Controllers',
+            'as'         => 'api.',
+            'prefix'     => 'jetpack-api',
+        ];
     }
 }

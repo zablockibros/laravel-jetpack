@@ -1,0 +1,69 @@
+<?php
+
+namespace DummyNamespace;
+
+use DummyFullModelClass;
+use DummyRequestPath\IndexRequest;
+use DummyRequestPath\StoreRequest;
+use DummyRequestPath\UpdateRequest;
+use Illuminate\Http\Request;
+use DummyRootNamespaceHttp\Controllers\Controller;
+
+class DummyClass extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @param  \DummyRequestPath\IndexRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function index(IndexRequest $request)
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \DummyRequestPath\StoreRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(StoreRequest $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \DummyFullModelClass  $DummyModelVariable
+     * @return \Illuminate\Http\Response
+     */
+    public function show(DummyModelClass $DummyModelVariable)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \DummyRequestPath\UpdateRequest  $request
+     * @param  \DummyFullModelClass  $DummyModelVariable
+     * @return \Illuminate\Http\Response
+     */
+    public function update(UpdateRequest $request, DummyModelClass $DummyModelVariable)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \DummyFullModelClass  $DummyModelVariable
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(DummyModelClass $DummyModelVariable)
+    {
+        //
+    }
+}
