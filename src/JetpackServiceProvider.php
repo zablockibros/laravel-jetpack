@@ -48,10 +48,9 @@ class JetpackServiceProvider extends ServiceProvider
      */
     protected function setUpConfig()
     {
-        $source = dirname(__DIR__) . '/resources/config/jetpack.php';
+        $source = dirname(__DIR__) . '/config/jetpack.php';
 
         $this->publishes([$source => config_path('jetpack.php')], 'config');
-
         $this->mergeConfigFrom($source, 'sluggable');
 
         return;

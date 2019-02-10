@@ -186,10 +186,10 @@ class MakeModel extends GeneratorCommand
     protected function getStub()
     {
         if ($this->option('pivot')) {
-            return __DIR__.'/stubs/pivot.model.stub';
+            return __DIR__.'/stubs/models/pivot.model.stub';
         }
 
-        return __DIR__.'/stubs/model.stub';
+        return __DIR__.'/stubs/models/model.stub';
     }
 
     /**

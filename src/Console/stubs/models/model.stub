@@ -3,9 +3,16 @@
 namespace DummyNamespace;
 
 use ZablockiBros\Jetpack\Models\Item;
+use ZablockiBros\Jetpack\Traits\UsesGenericFields;
+use ZablockiBros\Jetpack\Traits\UsesGenericTable;
+use ZablockiBros\Jetpack\Traits\UsesGenericRelationship;
 
 class DummyClass extends Item
 {
+    use UsesGenericTable;
+    use UsesGenericFields;
+    use UsesGenericRelationships;
+
     /**
      * @var array
      */

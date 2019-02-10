@@ -40,20 +40,20 @@ class MakeController extends GeneratorCommand
         $stub = null;
 
         if ($this->option('parent')) {
-            $stub = '/stubs/controller.nested.stub';
+            $stub = '/stubs/controllers/controller.nested.stub';
         } elseif ($this->option('model')) {
-            $stub = '/stubs/controller.model.stub';
+            $stub = '/stubs/controllers/controller.model.stub';
         } elseif ($this->option('resource')) {
-            $stub = '/stubs/controller.stub';
+            $stub = '/stubs/controllers/controller.stub';
         }
 
         if ($this->option('api') && is_null($stub)) {
-            $stub = '/stubs/controller.api.stub';
+            $stub = '/stubs/controllers/controller.api.stub';
         } elseif ($this->option('api') && ! is_null($stub)) {
             $stub = str_replace('.stub', '.api.stub', $stub);
         }
 
-        $stub = $stub ?? '/stubs/controller.plain.stub';
+        $stub = $stub ?? '/stubs/controllers/controller.plain.stub';
 
         return __DIR__.$stub;
     }

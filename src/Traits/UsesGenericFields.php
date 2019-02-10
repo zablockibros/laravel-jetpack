@@ -5,7 +5,7 @@ namespace ZablockiBros\Jetpack\Traits;
 use ZablockiBros\Jetpack\Models\Field;
 use Illuminate\Support\Collection;
 
-trait HasFields
+trait UsesGenericFields
 {
     /**
      * These are set dynamically
@@ -24,7 +24,7 @@ trait HasFields
     /**
      * @return void
      */
-    public static function bootHasFields()
+    public static function bootUsesGenericFields()
     {
         static::saved(function ($model) {
             // save the field columns
