@@ -140,10 +140,14 @@ class MakeController extends GeneratorCommand
         }
 
         return array_merge($replace, [
-            'DummyRequestPath'    => $this->getRequestNamespace(class_basename($modelClass)),
-            'DummyFullModelClass' => $modelClass,
-            'DummyModelClass'     => class_basename($modelClass),
-            'DummyModelVariable'  => lcfirst(class_basename($modelClass)),
+            'DummyRequestPath'     => $this->getRequestNamespace(class_basename($modelClass)),
+            'DummyResource'        => class_basename($modelClass) . 'Resource',
+            'DummyFullResource'    => $this->getResourceClass(class_basename($modelClass)),
+            'DummyFullModelClass'  => $modelClass,
+            'DummyModelClass'      => class_basename($modelClass),
+            'DummyModelVariable'   => lcfirst(class_basename($modelClass)),
+            'DummyModelSnakeName'  => snake_case(class_basename($modelClass)),
+            'DummyModelsSnakeName' => snake_case(str_plural(class_basename($modelClass))),
         ]);
     }
 
@@ -178,6 +182,16 @@ class MakeController extends GeneratorCommand
     protected function getRequestNamespace($modelName)
     {
         return $this->rootNamespace().'Http\Requests'. '\\' . $modelName;
+    }
+
+    /**
+     * @param $modelName
+     *
+     * @return string
+     */
+    protected function getResourceClass($modelName)
+    {
+        return $this->rootNamespace().'Http\Resources'. '\\' . "{$modelName}Resource";
     }
 
     /**

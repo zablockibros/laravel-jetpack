@@ -18,7 +18,10 @@ class DummyClass extends Controller
      */
     public function index(IndexRequest $request)
     {
-        //
+        $DummyModelVariable = DummyModelClass::all();
+
+        return view('DummyModelSnakeName.index')
+            ->with('DummyModelsSnakeName', $DummyModelVariable);
     }
 
     /**
@@ -28,7 +31,7 @@ class DummyClass extends Controller
      */
     public function create()
     {
-        //
+        return view('DummyModelSnakeName.create');
     }
 
     /**
@@ -39,7 +42,11 @@ class DummyClass extends Controller
      */
     public function store(StoreRequest $request)
     {
-        //
+        $DummyModelVariable = DummyModelClass::create(
+            $request->validated()
+        );
+
+        return redirect()->route('DummyModelSnakeName.show', [$DummyModelVariable]);
     }
 
     /**
@@ -50,7 +57,8 @@ class DummyClass extends Controller
      */
     public function show(DummyModelClass $DummyModelVariable)
     {
-        //
+        return view('DummyModelSnakeName.show')
+            ->with('DummyModelSnakeName', $DummyModelVariable);
     }
 
     /**
@@ -61,7 +69,8 @@ class DummyClass extends Controller
      */
     public function edit(DummyModelClass $DummyModelVariable)
     {
-        //
+        return view('DummyModelSnakeName.edit')
+            ->with('DummyModelSnakeName', $DummyModelVariable);
     }
 
     /**
@@ -73,7 +82,11 @@ class DummyClass extends Controller
      */
     public function update(UpdateRequest $request, DummyModelClass $DummyModelVariable)
     {
-        //
+        $DummyModelVariable->save(
+            $request->validated()
+        );
+
+        return redirect()->route('DummyModelSnakeName.edit', [$DummyModelVariable]);
     }
 
     /**
@@ -84,6 +97,8 @@ class DummyClass extends Controller
      */
     public function destroy(DummyModelClass $DummyModelVariable)
     {
-        //
+        $DummyModelVariable->delete();
+
+        return redirect()->route('DummyModelSnakeName.index');
     }
 }

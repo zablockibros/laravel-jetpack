@@ -7,20 +7,6 @@ use ZablockiBros\Jetpack\Scopes\ItemTypeScope;
 trait UsesGenericTable
 {
     /**
-     * @var string
-     */
-    protected $table = 'items';
-
-    /**
-     * @var array
-     */
-    protected $fillable = [
-        'itemable_type',
-        'itemable_id',
-        'type',
-    ];
-
-    /**
      * @return void
      */
     public static function bootUsesGenericTable()
@@ -45,5 +31,32 @@ trait UsesGenericTable
         $reflect = new \ReflectionClass($this);
 
         return str_singular(snake_case($reflect->getShortName()));
+    }
+
+    /**
+     * Get the table associated with the model.
+     *
+     * @return string
+     */
+    public function getTable()
+    {
+        return 'items';
+    }
+
+    /**
+     * Get the fillable attributes for the model.
+     *
+     * @return array
+     */
+    public function getFillable()
+    {
+        return array_merge(
+            parent::getFillable(),
+            [
+                'itemable_type',
+                'itemable_id',
+                'type',
+            ]
+        );
     }
 }

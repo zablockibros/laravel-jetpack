@@ -1,0 +1,7 @@
+[
+    'name'     => 'DummyFieldName',
+    'type'     => 'DummyFieldType',
+    'default'  => DummyFieldDefault,
+    'nullable' => true,
+    'column'   => null,
+],

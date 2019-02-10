@@ -6,6 +6,7 @@ use DummyFullModelClass;
 use DummyRequestPath\IndexRequest;
 use DummyRequestPath\StoreRequest;
 use DummyRequestPath\UpdateRequest;
+use DummyFullResource;
 use Illuminate\Http\Request;
 use DummyRootNamespaceHttp\Controllers\Controller;
 
@@ -15,33 +16,39 @@ class DummyClass extends Controller
      * Display a listing of the resource.
      *
      * @param  \DummyRequestPath\IndexRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(IndexRequest $request)
     {
-        //
+        $DummyModelVariable = DummyModelClass::all();
+
+        return DummyResource::collection($DummyModelVariable);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \DummyRequestPath\StoreRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \DummyFullResource
      */
     public function store(StoreRequest $request)
     {
-        //
+        $DummyModelVariable = DummyModelClass::create(
+            $request->validated()
+        );
+
+        return new DummyResource($DummyModelVariable);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \DummyFullModelClass  $DummyModelVariable
-     * @return \Illuminate\Http\Response
+     * @return \DummyFullResource
      */
     public function show(DummyModelClass $DummyModelVariable)
     {
-        //
+        return new DummyResource($DummyModelVariable);
     }
 
     /**
@@ -49,21 +56,27 @@ class DummyClass extends Controller
      *
      * @param  \DummyRequestPath\UpdateRequest  $request
      * @param  \DummyFullModelClass  $DummyModelVariable
-     * @return \Illuminate\Http\Response
+     * @return \DummyFullResource
      */
     public function update(UpdateRequest $request, DummyModelClass $DummyModelVariable)
     {
-        //
+        $DummyModelVariable->save(
+            $request->validated()
+        );
+
+        return new DummyResource($DummyModelVariable);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \DummyFullModelClass  $DummyModelVariable
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(DummyModelClass $DummyModelVariable)
     {
-        //
+        $DummyModelVariable->delete();
+
+        return response()->json([], 204);
     }
 }

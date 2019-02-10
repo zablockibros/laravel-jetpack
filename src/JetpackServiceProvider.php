@@ -24,6 +24,7 @@ class JetpackServiceProvider extends ServiceProvider
         $this->commands([
             Console\MakeModel::class,
             Console\MakeController::class,
+            Console\MakeModelFields::class,
         ]);
     }
 

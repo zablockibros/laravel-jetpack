@@ -5,7 +5,7 @@ namespace DummyNamespace;
 use ZablockiBros\Jetpack\Models\Item;
 use ZablockiBros\Jetpack\Traits\UsesGenericFields;
 use ZablockiBros\Jetpack\Traits\UsesGenericTable;
-use ZablockiBros\Jetpack\Traits\UsesGenericRelationship;
+use ZablockiBros\Jetpack\Traits\UsesGenericRelationships;
 
 class DummyClass extends Item
 {
