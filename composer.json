@@ -1,0 +1,46 @@
+{
+    "name": "zablockibros/laravel-jetpack",
+    "description": "A way to quickly prototype Laravel features",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Justin Zablocki",
+            "email": "zablockijj@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.1.3",
+        "laravel/framework": "5.7.*"
+    },
+    "require-dev": {
+        "fzaninotto/faker": "^1.4",
+        "mockery/mockery": "^1.0",
+        "phpunit/phpunit": "~7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ZablockiBros\\Jetpack\\": "src/"
+        },
+        "files": [
+            "src/Support/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ZablockiBros\\Jetpack\\Tests\\": "tests/"
+        },
+        "files": [
+            "tests/utilities/functions.php"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ZablockiBros\\Jetpack\\JetpackServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

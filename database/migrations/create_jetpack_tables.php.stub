@@ -1,0 +1,53 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateJetpackTables extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('items', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('itemable_type')->index()->nullable();
+            $table->unsignedInteger('itemable_id')->index()->nullable();
+            $table->string('type')->nullable();
+            $table->softDeletes();
+            $table->timestamps();
+        });
+
+        Schema::create('item_items', function (Blueprint $table) {
+            $table->increments('id');
+            $table->morphs('parent');
+            $table->morphs('child');
+            $table->timestamps();
+        });
+        
+        Schema::create('fields', function (Blueprint $table) {
+            $table->increments('id');
+            $table->nullableMorphs('fieldable');
+            $table->string('name')->default('default');
+            $table->json('columns')->nullable();
+            $table->softDeletes();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('items');
+        Schema::dropIfExists('item_items');
+        Schema::dropIfExists('fields');
+    }
+}
