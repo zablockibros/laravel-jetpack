@@ -46,6 +46,10 @@ This is background
     ```sh
     php artisan vendor:publish --provider="ZablockiBros\Jetpack\JetpackServiceProvider"
     ```
+    If you are using Roles & Permissions (via Entrust), e.g. `config('jetpack.modules.roles_and_permissions.enabled') === true`, then simply run:
+    ```sh
+    php artisan vendor:publish
+    ```
 
 ## Copyright and License
 

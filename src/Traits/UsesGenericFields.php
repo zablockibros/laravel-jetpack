@@ -194,7 +194,7 @@ trait UsesGenericFields
     /**
      * @param string $name
      *
-     * @return \App\Models\Field
+     * @return \ZablockiBros\Jetpack\Models\Field
      */
     private function getOrCreateField(string $name = 'default'): Field
     {
@@ -229,7 +229,7 @@ trait UsesGenericFields
     /**
      * @param string $name
      *
-     * @return \App\Models\Field|null
+     * @return \ZablockiBros\Jetpack\Models\Field|null
      */
     private function fieldModelByName(string $name = 'default'): ?Field
     {

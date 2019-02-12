@@ -14,7 +14,7 @@ class MakeController extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'jetpack-make:controller {name} {--m|model} {--r|resource} {--p|parent} {--api}';
+    protected $name = 'jetpack:controller {name} {--m|model} {--r|resource} {--p|parent} {--api}';
 
     /**
      * The console command description.

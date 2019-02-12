@@ -14,7 +14,7 @@ class MakeModel extends GeneratorCommand
      *
      * @var string
      */
-    protected $signature = 'jetpack-make:model {name} {--a|all} {--c|controller} {--api} {--f|factory} {--m|migration} {--r|resource} {--p|pivot} {--force}';
+    protected $signature = 'jetpack:model {name} {--a|all} {--c|controller} {--o|ownable} {--api} {--f|factory} {--m|migration} {--r|resource} {--p|pivot} {--force}';
 
     /**
      * The console command description.
@@ -64,6 +64,8 @@ class MakeModel extends GeneratorCommand
                 $this->createRequests($model);
             }
 
+            $this->createPolicy($model);
+
             if ($this->option('controller')) {
                 $this->createController($model);
             }
@@ -91,11 +93,11 @@ class MakeModel extends GeneratorCommand
      */
     protected function createFactory($model)
     {
-        $factory = Str::studly(class_basename($model));
+        $factory = Str::studly($model);
 
         $this->call('make:factory', [
-            'name' => "{$factory}Factory",
-            '--model' => $this->qualifyClass($model),
+            'name'    => "{$factory}Factory",
+            '--model' => $model,
         ]);
     }
 
@@ -152,13 +154,11 @@ class MakeModel extends GeneratorCommand
     protected function createController($model)
     {
         $controller = Str::studly(class_basename($model));
+        $name       = "{$controller}Controller";
 
-        $modelName = $this->qualifyClass($model);
-        $name      = "{$controller}Controller";
-
-        $this->call('jetpack-make:controller', [
+        $this->call('jetpack:controller', [
             'name'    => $name,
-            '--model' => $modelName,
+            '--model' => $model,
             '--api'   => false,
         ]);
     }
@@ -169,14 +169,26 @@ class MakeModel extends GeneratorCommand
     protected function createApiController($model)
     {
         $controller = Str::studly(class_basename($model));
+        $name       = "{$controller}Controller";
 
-        $modelName = $this->qualifyClass($model);
-        $name      = "{$controller}Controller";
-
-        $this->call('jetpack-make:controller', [
+        $this->call('jetpack:controller', [
             'name'    => $name,
-            '--model' => $modelName,
+            '--model' => $model,
             '--api'   => true,
+        ]);
+    }
+
+    /**
+     * @return void
+     */
+    protected function createPolicy($model)
+    {
+        $class = Str::studly(class_basename($model));
+        $name  = "{$class}Policy";
+
+        $this->call('make:policy', [
+            'name'    => $name,
+            '--model' => $model,
         ]);
     }
 
@@ -185,6 +197,10 @@ class MakeModel extends GeneratorCommand
      */
     protected function getStub()
     {
+        if ($this->option('ownable')) {
+            return __DIR__.'/stubs/models/model.ownable.stub';
+        }
+
         if ($this->option('pivot')) {
             return __DIR__.'/stubs/models/pivot.model.stub';
         }
@@ -209,6 +225,7 @@ class MakeModel extends GeneratorCommand
         return [
             ['all', 'a', InputOption::VALUE_NONE, 'Generate a migration, factory, and resource controller for the model'],
             ['controller', 'c', InputOption::VALUE_NONE, 'Create a new controller for the model'],
+            ['ownable', 'o', InputOption::VALUE_NONE, 'Create ownership relationship to user model'],
             ['factory', 'f', InputOption::VALUE_NONE, 'Create a new factory for the model'],
             ['force', null, InputOption::VALUE_NONE, 'Create the class even if the model already exists'],
             ['migration', 'm', InputOption::VALUE_NONE, 'Create a new migration file for the model'],

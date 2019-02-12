@@ -3,7 +3,6 @@
 namespace ZablockiBros\Jetpack\Console;
 
 use Illuminate\Console\GeneratorCommand;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 use ZablockiBros\Jetpack\Support\ModelManager;
@@ -15,7 +14,7 @@ class MakeModelFields extends GeneratorCommand
      *
      * @var string
      */
-    protected $signature = 'jetpack-make:fields {name} {--f|force}';
+    protected $signature = 'jetpack:fields {name} {--f|force}';
 
     /**
      * The console command description.
@@ -47,8 +46,6 @@ class MakeModelFields extends GeneratorCommand
     public function handle()
     {
         $this->askForFields();
-        $this->askForFieldTypes();
-        $this->askForFieldDefaults();
 
         if (parent::handle() === false && ! $this->option('force')) {
             return;
@@ -62,26 +59,10 @@ class MakeModelFields extends GeneratorCommand
      */
     protected function askForFields()
     {
-        $fields = $this->ask('What fields do you want to generate? (separate with commas)', '');
-
-        $this->fields = explode(',', str_replace(' ', '', $fields));
-
-        return;
-    }
-
-    /**
-     * @return void
-     */
-    protected function askForFieldTypes()
-    {
-        if (! $this->confirm('Set field types?', true)) {
-            return;
-        }
-
-        $this->line('Types: ' . implode(', ', ModelManager::CAST_TYPES));
-
-        foreach ($this->fields as $key => $field) {
-            $this->types[$key] = $this->ask('Field type for ['.$field.']', 'string');
+        while ($field = $this->ask('Enter a field name (or empty to end)', false)) {
+            $this->fields[] = $field;
+            $this->askForFieldTypes(count($this->fields) - 1);
+            $this->askForFieldDefaults(count($this->fields) - 1);
         }
 
         return;
@@ -90,15 +71,25 @@ class MakeModelFields extends GeneratorCommand
     /**
      * @return void
      */
-    protected function askForFieldDefaults()
+    protected function askForFieldTypes($key)
     {
-        if (! $this->confirm('Set field defaults?', true)) {
-            return;
-        }
+        //$this->line('Now time for field types');
 
-        foreach ($this->fields as $key => $field) {
-            $this->defaults[$key] = $this->ask('Field defaults for ['.$field.']', null) ?: null;
-        }
+        $this->types[$key] = $this->choice('Field type ['.$this->fields[$key].']', ModelManager::CAST_TYPES, 0);
+
+        return;
+    }
+
+    /**
+     * @return void
+     */
+    protected function askForFieldDefaults($key)
+    {
+        //$this->line('Now time for field default values');
+
+        //foreach ($this->fields as $key => $field) {
+            $this->defaults[$key] = $this->ask('Default ['.$this->fields[$key].'] (empty for null)', null) ?: null;
+        //}
 
         return;
     }
@@ -148,10 +139,13 @@ class MakeModelFields extends GeneratorCommand
     {
         $stub = $this->files->get($this->getFieldStub());
 
+        $value = $this->defaults[$key] ?? 'null';
+        $value = $value ?: 'null';
+
         $replace = [
-            'DummyFieldName'    => $this->fields[$key],
-            'DummyFieldType'    => $this->types[$key],
-            'DummyFieldDefault' => $this->defaults[$key] ? "${$this->defaults[$key]}" : 'null',
+            'DummyFieldName'    => $this->fields[$key] ?? 'missing',
+            'DummyFieldType'    => $this->types[$key] ?? 'string',
+            'DummyFieldDefault' => $value,
         ];
 
         return str_replace(
@@ -195,16 +189,7 @@ class MakeModelFields extends GeneratorCommand
     {
         $name = snake_case(class_basename($name));
 
-        return $this->laravel['path'].'/../jetpack/models/fields/'.str_replace('\\', '/', $name).'.php';
-    }
-
-    /**
-     * @param  string  $rootNamespace
-     * @return string
-     */
-    protected function getDefaultNamespace($rootNamespace)
-    {
-        return $rootNamespace;
+        return $this->laravel['path'].'/../config/models/fields/'.$name.'.php';
     }
 
     /**

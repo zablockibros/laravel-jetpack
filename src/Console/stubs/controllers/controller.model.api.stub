@@ -13,6 +13,15 @@ use DummyRootNamespaceHttp\Controllers\Controller;
 class DummyClass extends Controller
 {
     /**
+     * Construct
+     */
+    public function __construct()
+    {
+        // @override: remove this to allow authorization
+        $this->authorizeResource(DummyModelClass::class, 'DummyModelVariable');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @param  \DummyRequestPath\IndexRequest  $request

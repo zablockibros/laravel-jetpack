@@ -14,7 +14,8 @@
         "illuminate/config": "~5.7.0",
         "illuminate/console": "~5.7.0",
         "illuminate/database": "~5.7.0",
-        "illuminate/support": "~5.7.0"
+        "illuminate/support": "~5.7.0",
+        "zizaco/entrust": "5.2.x-dev"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.4",
