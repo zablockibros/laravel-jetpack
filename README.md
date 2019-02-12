@@ -46,9 +46,30 @@ This is background
     ```sh
     php artisan vendor:publish --provider="ZablockiBros\Jetpack\JetpackServiceProvider"
     ```
-    If you are using Roles & Permissions (via Entrust), e.g. `config('jetpack.modules.roles_and_permissions.enabled') === true`, then simply run:
+    If you are using Roles & Permissions (via Spatie), e.g. `config('jetpack.roles.enable') === true`, then simply run:
     ```sh
     php artisan vendor:publish
+    ```
+## Setup
+
+In order to start building resources and modules, you need to configure some required Jetpack settings.
+
+#### Roles and Permissions
+
+1. In `config/jetpack.php` set `roles.enable` to `true`.
+2. Run 
+    ```sh 
+    php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider" --tag="migrations"
+    php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider" --tag="config"
+    ```
+3. Run
+    ```sh
+    php artisan migrate
+    ```
+4. Modify and configure your desired roles and permissions using the provided sample array.
+5. After modifying configued roles and permissions, ALWAYS run
+    ```sh
+    php artisan db:seed --class=RolesAndPermissionsSeeder
     ```
 
 ## Copyright and License

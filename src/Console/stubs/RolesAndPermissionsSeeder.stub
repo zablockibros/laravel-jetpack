@@ -1,0 +1,64 @@
+<?php
+
+use App\Models\Permission;
+use App\Models\Role;
+use Illuminate\Database\Seeder;
+
+class RolesAndPermissionsSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        $this->createPermissions();
+        $this->createRoles();
+    }
+
+    /**
+     * @return void
+     */
+    private function createPermissions()
+    {
+        collect(config('jetpack.roles.permissions', []))
+            ->each(function ($permission) {
+                Permission::firstOrCreate(['name' => $permission]);
+            });
+
+        return;
+    }
+
+    /**
+     * @return void
+     */
+    private function createRoles()
+    {
+        collect(config('jetpack.roles.permissions', []))
+            ->each(function ($value, $key) {
+                $role = ! is_array($value) ? $value : $key;
+                $role = Role::firstOrCreate(['name' => $role]);
+
+                if (is_array($value)) {
+                    $this->attachRolePermissions($role, $value);
+                }
+            });
+
+        return;
+    }
+
+    /**
+     * @param \App\Models\Role $role
+     * @param array            $permissions
+     */
+    private function attachRolePermissions(Role $role, array $permissions)
+    {
+        collect($permissions)->each(function ($permission) use ($role) {
+            $permission = Permission::firstOrCreate(['name' => $permission]);
+            $role->givePermissionTo($permission);
+        });
+
+        return;
+    }
+}

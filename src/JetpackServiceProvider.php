@@ -28,7 +28,7 @@ class JetpackServiceProvider extends ServiceProvider
             __DIR__ . '/Console/stubs/JetpackServiceProvider.stub' => app_path('Providers/JetpackServiceProvider.php'),
         ], 'jetpack-provider');
 
-        // config
+        // migrations
         if (! class_exists('CreateJetpackTables')) {
             $timestamp = date('Y_m_d_His', time());
 
@@ -39,12 +39,13 @@ class JetpackServiceProvider extends ServiceProvider
 
         // config
         $this->publishes([
-            __DIR__ . '/config/jetpack.php' => config_path('jetpack.php'),
+            __DIR__ . '/../config/jetpack.php' => config_path('jetpack.php'),
         ], 'jetpack-config');
 
-        if (! $this->app->configurationIsCached()) {
-            $this->mergeConfigFrom(__DIR__ . '/../config/jetpack.php', 'jetpack');
-        }
+        // seeder
+        $this->publishes([
+            __DIR__ . '/Console/stubs/RolesAndPermissionsSeeder.stub' => database_path('seeds/RolesAndPermissionsSeeder.php'),
+        ], 'jetpack-role-seeder');
     }
 
     /**
@@ -55,19 +56,18 @@ class JetpackServiceProvider extends ServiceProvider
         // commands
         $this->commands([
             Console\MakeModel::class,
+            Console\MakeResourceJob::class,
             Console\MakeController::class,
             Console\MakeModelFields::class,
+            Console\MakePolicy::class,
 
             // dev
             GetModelColumns::class,
         ]);
 
         // Entrust
-        if (config('jetpack.modules.roles_and_permissions.enable', false)) {
-            $this->app->register('Zizaco\Entrust\EntrustServiceProvider');
-
-            $loader = \Illuminate\Foundation\AliasLoader::getInstance();
-            $loader->alias('Entrust', 'Zizaco\Entrust\EntrustFacade');
+        if (config('jetpack.modules.roles.enable', false)) {
+            $this->app->register('Spatie\Permission\PermissionServiceProvider');
         }
     }
 

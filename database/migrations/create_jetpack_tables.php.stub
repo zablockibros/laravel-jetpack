@@ -13,30 +13,36 @@ class CreateJetpackTables extends Migration
      */
     public function up()
     {
-        Schema::create('items', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('itemable_type')->index()->nullable();
-            $table->unsignedInteger('itemable_id')->index()->nullable();
-            $table->string('type')->nullable();
-            $table->softDeletes();
-            $table->timestamps();
-        });
+        if (! Schema::hasTable('items')) {
+            Schema::create('items', function (Blueprint $table) {
+                $table->increments('id');
+                $table->unsignedInteger('itemable_type')->index()->nullable();
+                $table->unsignedInteger('itemable_id')->index()->nullable();
+                $table->string('type')->nullable();
+                $table->softDeletes();
+                $table->timestamps();
+            });
+        }
 
-        Schema::create('item_items', function (Blueprint $table) {
-            $table->increments('id');
-            $table->morphs('parent');
-            $table->morphs('child');
-            $table->timestamps();
-        });
-        
-        Schema::create('fields', function (Blueprint $table) {
-            $table->increments('id');
-            $table->nullableMorphs('fieldable');
-            $table->string('name')->default('default');
-            $table->json('columns')->nullable();
-            $table->softDeletes();
-            $table->timestamps();
-        });
+        if (! Schema::hasTable('item_items')) {
+            Schema::create('item_items', function (Blueprint $table) {
+                $table->increments('id');
+                $table->morphs('parent');
+                $table->morphs('child');
+                $table->timestamps();
+            });
+        }
+
+        if (! Schema::hasTable('fields')) {
+            Schema::create('fields', function (Blueprint $table) {
+                $table->increments('id');
+                $table->nullableMorphs('fieldable');
+                $table->string('name')->default('default');
+                $table->json('columns')->nullable();
+                $table->softDeletes();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

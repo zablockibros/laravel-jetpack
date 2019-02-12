@@ -1,0 +1,26 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Http\Request;
+use ZablockiBros\Jetpack\Traits\HandlesRequest;
+
+class DummyClass
+{
+    use Dispatchable, Queueable;
+    use HandlesRequest;
+
+    /**
+     * Execute the job.
+     *
+     * @return null|Model
+     */
+    public function handle(Request $request)
+    {
+        return $this->request($request)
+            ->DummyActionName();
+    }
+}

@@ -29,44 +29,27 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Modules
+    | Roles and permissions
     |--------------------------------------------------------------------------
     |
-    | Should Jetpack use ownership
+    | Role and permission settings
     |
     */
-    'modules' => [
-        /**
-         * Roles and permissions
-         */
-        'roles_and_permissions' => [
-            'enable' => true,
+    'roles' => [
+        'enable' => true,
 
-            'roles' => [
-                [
-                    'name'        => 'owner',
-                    'display'     => 'Owner',
-                    'description' => '',
-                ],
-                [
-                    'name'        => 'admin',
-                    'display'     => 'Admin',
-                    'description' => '',
-                ],
-                [
-                    'name'        => 'member',
-                    'display'     => 'Member',
-                    'description' => '',
-                ],
+        'roles' => [
+            'owner',
+            'admin' => [
+                // permissions (optional)
+                'invite users',
             ],
+            'member',
+        ],
 
-            'permissions' => [
-                [
-                    'name'        => 'create-',
-                    'display'     => 'Owner',
-                    'description' => '',
-                ],
-            ],
+        'permissions' => [
+            'invite users',
+            'delete users',
         ],
     ],
 ];

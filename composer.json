@@ -15,7 +15,7 @@
         "illuminate/console": "~5.7.0",
         "illuminate/database": "~5.7.0",
         "illuminate/support": "~5.7.0",
-        "zizaco/entrust": "5.2.x-dev"
+        "spatie/laravel-permission": "^2.25"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.4",

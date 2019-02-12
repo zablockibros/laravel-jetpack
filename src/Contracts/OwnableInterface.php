@@ -2,6 +2,8 @@
 
 namespace ZablockiBros\Jetpack\Contracts;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 interface OwnableInterface
@@ -12,21 +14,42 @@ interface OwnableInterface
     public function owner(): Relation;
 
     /**
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function getOwner(): Model;
+
+    /**
      * @return bool
      */
     public function hasOwner(): bool;
 
     /**
-     * @param \ZablockiBros\Jetpack\Contracts\OwnerInterface $model
+     * @param \Illuminate\Database\Eloquent\Model $model
      *
      * @return bool
      */
-    public function isOwnedBy(OwnerInterface $model): bool;
+    public function isOwnedBy(Model $model): bool;
 
     /**
-     * @param null|\ZablockiBros\Jetpack\Contracts\OwnableInterface $model
+     * @param \Illuminate\Database\Eloquent\Model|null $model
      *
      * @return mixed
      */
-    public function setOwner(?OwnableInterface $model);
+    public function setOwner(?Model $model);
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param \Illuminate\Database\Eloquent\Model   $owner
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWhereOwnedBy(Builder $query, Model $owner);
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param \Illuminate\Database\Eloquent\Model   $owner
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWhereNotOwnedBy(Builder $query, Model $owner);
 }

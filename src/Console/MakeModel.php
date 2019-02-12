@@ -14,7 +14,7 @@ class MakeModel extends GeneratorCommand
      *
      * @var string
      */
-    protected $signature = 'jetpack:model {name} {--a|all} {--c|controller} {--o|ownable} {--api} {--f|factory} {--m|migration} {--r|resource} {--p|pivot} {--force}';
+    protected $signature = 'jetpack:model {name} {--a|all} {--c|controller} {--o|ownable} {--api} {--f|factory} {--m|migration} {--r|resource} {--j|jobs} {--p|pivot} {--force}';
 
     /**
      * The console command description.
@@ -37,6 +37,8 @@ class MakeModel extends GeneratorCommand
         if ($this->option('all')) {
             $this->input->setOption('factory', true);
             $this->input->setOption('migration', true);
+            $this->input->setOption('jobs', true);
+            $this->input->setOption('api', true);
             $this->input->setOption('controller', true);
             $this->input->setOption('resource', true);
         }
@@ -58,6 +60,10 @@ class MakeModel extends GeneratorCommand
 
             if ($this->option('resource')) {
                 $this->createResource($model);
+            }
+
+            if ($this->option('jobs')) {
+                $this->createJobs($model);
             }
 
             if ($this->option('controller') || $this->option('resource')) {
@@ -151,6 +157,28 @@ class MakeModel extends GeneratorCommand
     /**
      * @return void
      */
+    protected function createJobs($model)
+    {
+        $this->call('jetpack:resource-job', [
+            'name'     => 'StoreRequest',
+            '--model'  => $model,
+            '--action' => 'store',
+        ]);
+        $this->call('jetpack:resource-job', [
+            'name'     => 'UpdateRequest',
+            '--model'  => $model,
+            '--action' => 'update',
+        ]);
+        $this->call('jetpack:resource-job', [
+            'name'     => 'DestroyRequest',
+            '--model'  => $model,
+            '--action' => 'destroy',
+        ]);
+    }
+
+    /**
+     * @return void
+     */
     protected function createController($model)
     {
         $controller = Str::studly(class_basename($model));
@@ -231,6 +259,7 @@ class MakeModel extends GeneratorCommand
             ['migration', 'm', InputOption::VALUE_NONE, 'Create a new migration file for the model'],
             ['pivot', 'p', InputOption::VALUE_NONE, 'Indicates if the generated model should be a custom intermediate table model'],
             ['resource', 'r', InputOption::VALUE_NONE, 'Indicates if the generated controller should be a resource controller'],
+            ['jobs', 'j', InputOption::VALUE_NONE, 'Create request handling jobs for model'],
         ];
     }
 }

@@ -2,17 +2,37 @@
 
 namespace ZablockiBros\Jetpack\Traits;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use ZablockiBros\Jetpack\Contracts\OwnerInterface;
 
 trait HasOwner
 {
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * Boot the HasMorphOwner trait for a model.
+     *
+     * @return void
+     */
+    public static function bootHasOwner()
+    {
+        //static::observe(OwnableObserver::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function owner(): BelongsTo
     {
-        return $this->belongsTo(config('auth.providers.users.model', 'App\Models\User'), 'owner_id');
+        return $this->morphTo('owned_by');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function getOwner(): Model
+    {
+        return $this->owner;
     }
 
     /**
@@ -20,7 +40,7 @@ trait HasOwner
      */
     public function hasOwner(): bool
     {
-        return $this->owner()->exists();
+        return ! is_null($this->getOwner());
     }
 
     /**
@@ -30,7 +50,12 @@ trait HasOwner
      */
     public function isOwnedBy(Model $model): bool
     {
-        return optional($this->owner()->first(['id']))->id === $model->id;
+        if (!$this->hasOwner()) {
+            return false;
+        }
+
+        return $model->getKey() === $this->getOwner()->getKey()
+            && $model->getMorphClass() === $this->getOwner()->getMorphClass();
     }
 
     /**
@@ -47,5 +72,33 @@ trait HasOwner
         $this->owner()->associate($model);
 
         return;
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param \Illuminate\Database\Eloquent\Model   $owner
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWhereOwnedBy(Builder $query, Model $owner)
+    {
+        return $query->where([
+            'owned_by_id' => $owner->getKey(),
+            'owned_by_type' => $owner->getMorphClass(),
+        ]);
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param \Illuminate\Database\Eloquent\Model   $owner
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWhereNotOwnedBy(Builder $query, Model $owner)
+    {
+        return $query->where(function (Builder $q) use ($owner) {
+            $q->where('owned_by_id', '!=', $owner->getKey())
+                ->orWhere('owned_by_type', '!=', $owner->getMorphClass());
+        });
     }
 }
