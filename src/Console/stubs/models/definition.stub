@@ -1,0 +1,32 @@
+<?php
+
+namespace DummyNamespace;
+
+use ZablockiBros\Jetpack\Models\BaseModel;
+use ZablockiBros\Jetpack\Models\Columns\Column;
+
+class DummyClass extends BaseModel
+{
+    /**
+     * @var string
+     */
+    protected $model = \DummyModelClass::class;
+
+    /**
+     * @return array
+     */
+    public function columns()
+    {
+        return [
+            //Column::string('');
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function relations()
+    {
+        return [];
+    }
+}

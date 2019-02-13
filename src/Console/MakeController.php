@@ -14,7 +14,7 @@ class MakeController extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'jetpack:controller {name} {--m|model} {--r|resource} {--p|parent} {--api}';
+    protected $name = 'jetpack:controller {name} {--m|model} {--r|resource} {--jobs} {--p|parent} {--api}';
 
     /**
      * The console command description.
@@ -204,6 +204,7 @@ class MakeController extends GeneratorCommand
         return [
             ['model', 'm', InputOption::VALUE_OPTIONAL, 'Generate a resource controller for the given model.'],
             ['resource', 'r', InputOption::VALUE_NONE, 'Generate a resource controller class.'],
+            ['jobs', 'j', InputOption::VALUE_NONE, 'Use jobs for crud operations'],
             ['parent', 'p', InputOption::VALUE_OPTIONAL, 'Generate a nested resource controller class.'],
             ['api', null, InputOption::VALUE_NONE, 'Exclude the create and edit methods from the controller.'],
         ];

@@ -60,6 +60,7 @@ class JetpackServiceProvider extends ServiceProvider
             Console\MakeController::class,
             Console\MakeModelFields::class,
             Console\MakePolicy::class,
+            Console\MakeModelDefinition::class,
 
             // dev
             GetModelColumns::class,

@@ -14,7 +14,7 @@ class MakeModel extends GeneratorCommand
      *
      * @var string
      */
-    protected $signature = 'jetpack:model {name} {--a|all} {--c|controller} {--o|ownable} {--api} {--f|factory} {--m|migration} {--r|resource} {--j|jobs} {--p|pivot} {--force}';
+    protected $signature = 'jetpack:model {name} {--a|all} {--definition} {--c|controller} {--o|ownable} {--api} {--f|factory} {--m|migration} {--r|resource} {--j|jobs} {--p|pivot} {--force}';
 
     /**
      * The console command description.
@@ -36,6 +36,7 @@ class MakeModel extends GeneratorCommand
 
         if ($this->option('all')) {
             $this->input->setOption('factory', true);
+            $this->input->setOption('definition', true);
             $this->input->setOption('migration', true);
             $this->input->setOption('jobs', true);
             $this->input->setOption('api', true);
@@ -51,6 +52,10 @@ class MakeModel extends GeneratorCommand
 
             if ($this->option('factory')) {
                 $this->createFactory($model);
+            }
+
+            if ($this->option('defintion')) {
+                $this->createDefinition($model);
             }
 
             if ($this->option('migration')) {
@@ -104,6 +109,16 @@ class MakeModel extends GeneratorCommand
         $this->call('make:factory', [
             'name'    => "{$factory}Factory",
             '--model' => $model,
+        ]);
+    }
+
+    /**
+     * @return void
+     */
+    protected function createDefinition($model)
+    {
+        $this->call('make:factory', [
+            'name'    => $model,
         ]);
     }
 
@@ -187,6 +202,7 @@ class MakeModel extends GeneratorCommand
         $this->call('jetpack:controller', [
             'name'    => $name,
             '--model' => $model,
+            '--jobs'  => $this->option('jobs') ?? false,
             '--api'   => false,
         ]);
     }
@@ -253,6 +269,7 @@ class MakeModel extends GeneratorCommand
         return [
             ['all', 'a', InputOption::VALUE_NONE, 'Generate a migration, factory, and resource controller for the model'],
             ['controller', 'c', InputOption::VALUE_NONE, 'Create a new controller for the model'],
+            ['definition', null, InputOption::VALUE_NONE, 'Create a Jetpack model definition'],
             ['ownable', 'o', InputOption::VALUE_NONE, 'Create ownership relationship to user model'],
             ['factory', 'f', InputOption::VALUE_NONE, 'Create a new factory for the model'],
             ['force', null, InputOption::VALUE_NONE, 'Create the class even if the model already exists'],
