@@ -31,6 +31,16 @@ use Illuminate\Http\Request;
 abstract class BaseColumn
 {
     /**
+     * @var bool
+     */
+    public $firesEvents = true;
+
+    /**
+     * @var bool
+     */
+    public $validates = true;
+
+    /**
      * @var string
      */
     public $type = 'string';
@@ -74,8 +84,8 @@ abstract class BaseColumn
      */
     public function __construct(string $type, string $name, array $parameters)
     {
-        $this->type   = $type;
-        $this->name   = $name;
+        $this->type      = $type;
+        $this->name      = $name;
         $this->defintion = new ColumnDefinition([]);
     }
 
@@ -111,6 +121,38 @@ abstract class BaseColumn
             return $this->createDefinition();
         }
 
+        return $this->defintion;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function name()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function type()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return array
+     */
+    public function parameters()
+    {
+        return $this->parameters;
+    }
+
+    /**
+     * @return \ZablockiBros\Jetpack\Models\Columns\ColumnDefinition
+     */
+    public function definition(): ColumnDefinition
+    {
         return $this->defintion;
     }
 

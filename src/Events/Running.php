@@ -10,19 +10,9 @@ class Running
     use Dispatchable;
 
     /**
-     * The request instance.
-     *
-     * @var \Illuminate\Http\Request
-     */
-    public $request;
-
-    /**
      * Create a new event instance.
-     *
-     * @param \Illuminate\Http\Request $request
      */
-    public function __construct(Request $request)
+    public function __construct()
     {
-        $this->request = $request;
     }
 }

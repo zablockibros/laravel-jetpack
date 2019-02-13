@@ -3,20 +3,20 @@
 namespace DummyNamespace;
 
 use Illuminate\Database\Eloquent\Model;
-use ZablockiBros\Jetpack\Traits\UsesGenericFields;
+use ZablockiBros\Jetpack\Traits\OwnsGenericFields;
 use ZablockiBros\Jetpack\Traits\UsesGenericTable;
 use ZablockiBros\Jetpack\Traits\UsesGenericRelationships;
 
 class DummyClass extends Model
 {
     use UsesGenericTable;
-    use UsesGenericFields;
+    use OwnsGenericFields;
     use UsesGenericRelationships;
 
     /**
      * @var array
      */
-    protected $itemAttributes = [
+    protected $attributes = [
         //'sample_attr' => 'default_value',
     ];
 
@@ -26,44 +26,4 @@ class DummyClass extends Model
     protected $casts = [
         //'sample_attr' => 'string',
     ];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
-     */
-    //public function spouse()
-    //{
-    //    return $this->itemable(Spouse::class);
-    //}
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
-     */
-    //public function car()
-    //{
-    //    return $this->item(Car::class);
-    //}
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
-    //public function shoes()
-    //{
-    //    return $this->items(Shoe::class);
-    //}
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
-    //public function children()
-    //{
-    //    return $this->manyItems(Child::class);
-    //}
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
-    //public function parents()
-    //{
-    //    return $this->byManyItems(Parent::class);
-    //}
 }

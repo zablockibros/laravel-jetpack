@@ -21,8 +21,11 @@ class JetpackApplicationServiceProvider extends ServiceProvider
 
             // models
             Jetpack::models($this->models());
-            Jetpack::observeModels();
+            Jetpack::bootModels();
         });
+
+        // todo: move?
+        Running::dispatch();
     }
 
     /**

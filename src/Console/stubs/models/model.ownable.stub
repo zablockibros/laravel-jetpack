@@ -5,7 +5,7 @@ namespace DummyNamespace;
 use Illuminate\Database\Eloquent\Model;
 use ZablockiBros\Jetpack\Contracts\OwnableInterface;
 use ZablockiBros\Jetpack\Traits\HasOwner;
-use ZablockiBros\Jetpack\Traits\UsesGenericFields;
+use ZablockiBros\Jetpack\Traits\OwnsGenericFields;
 use ZablockiBros\Jetpack\Traits\UsesGenericTable;
 use ZablockiBros\Jetpack\Traits\UsesGenericRelationships;
 
@@ -13,7 +13,7 @@ class DummyClass extends Model implements OwnableInterface
 {
     use HasOwner;
     use UsesGenericTable;
-    use UsesGenericFields;
+    use OwnsGenericFields;
     use UsesGenericRelationships;
 
     /**

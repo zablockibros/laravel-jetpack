@@ -1,0 +1,1 @@
+$table->DummyColumnType('DummyColumnName')DummyColumnMethods;

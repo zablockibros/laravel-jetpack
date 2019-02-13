@@ -2,7 +2,7 @@
 
 namespace ZablockiBros\Jetpack\Http\Middleware;
 
-use ZablockiBros\Jetpack\Events\Running;
+use ZablockiBros\Jetpack\Events\Serving;
 
 class DispatchRunningEvent
 {
@@ -14,7 +14,7 @@ class DispatchRunningEvent
      */
     public function handle($request, $next)
     {
-        Running::dispatch($request);
+        Serving::dispatch($request);
 
         return $next($request);
     }

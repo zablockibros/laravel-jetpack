@@ -12,35 +12,27 @@ use Illuminate\Http\Request;
 class Column extends BaseColumn
 {
     /**
-     * @return null|string
+     * @param bool $fires
+     *
+     * @return $this
      */
-    public function name()
+    public function firesEvents(bool $fires)
     {
-        return $this->name;
+        $this->firesEvents = $fires;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * @param bool $validates
+     *
+     * @return $this
      */
-    public function type()
+    public function validates(bool $validates)
     {
-        return $this->type;
-    }
+        $this->validates = $validates;
 
-    /**
-     * @return array
-     */
-    public function parameters()
-    {
-        return $this->parameters;
-    }
-
-    /**
-     * @return \ZablockiBros\Jetpack\Models\Columns\ColumnDefinition
-     */
-    public function definition(): ColumnDefinition
-    {
-        return $this->defintion;
+        return $this;
     }
 
     /**

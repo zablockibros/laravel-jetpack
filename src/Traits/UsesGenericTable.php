@@ -2,6 +2,7 @@
 
 namespace ZablockiBros\Jetpack\Traits;
 
+use Illuminate\Database\Eloquent\Model;
 use ZablockiBros\Jetpack\Scopes\ItemTypeScope;
 
 trait UsesGenericTable
@@ -11,7 +12,7 @@ trait UsesGenericTable
      */
     public static function bootUsesGenericTable()
     {
-        static::creating(function (&$model) {
+        static::creating(function (Model &$model) {
             $model->type = $model->type ?: get_class($model);
         });
 
@@ -21,6 +22,14 @@ trait UsesGenericTable
         parent::boot();
 
         return;
+    }
+
+    /**
+     * @return void
+     */
+    public function initializeUsesGenericTable()
+    {
+        $this->setTable('items');
     }
 
     /**
@@ -55,7 +64,7 @@ trait UsesGenericTable
             [
                 'itemable_type',
                 'itemable_id',
-                'type',
+                'item_type',
             ]
         );
     }

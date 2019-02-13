@@ -22,6 +22,6 @@ class ItemTypeScope implements Scope
         }
 
         // todo: use $model->getSingularTypeName()???
-        $builder->where('type', get_class($model));
+        $builder->where('item_type', get_class($model));
     }
 }

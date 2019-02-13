@@ -2,46 +2,131 @@
 
 namespace ZablockiBros\Jetpack\Models;
 
+use Illuminate\Database\Eloquent\Model;
+use ZablockiBros\Jetpack\Models\Actions\Action;
 use ZablockiBros\Jetpack\Models\Columns\Column;
+use ZablockiBros\Jetpack\Models\Relationships\Relation;
+use ZablockiBros\Jetpack\Observers\ModelObserver;
 
 abstract class BaseModel
 {
     /**
      * @var string
      */
-    protected $model;
+    public $model;
 
     /**
      * @var bool
      */
-    protected $validates = true;
+    public $hasFields = true;
 
     /**
      * @var bool
      */
-    protected $authorizes = true;
+    public $validates = true;
 
     /**
      * @var bool
      */
-    protected $relates = true;
+    public $authorizes = true;
 
     /**
+     * @var bool
+     */
+    public $relates = true;
+
+    /**
+     * @var bool
+     */
+    public $firesEvents = true;
+
+    /**
+     * @override
+     *
      * @return array
      */
     public function columns()
     {
         return [
-            //Column::string('')
-            //    ->
+            //Column::string(''),
         ];
+    }
+
+    /**
+     * @override
+     *
+     * @return array
+     */
+    public function relations()
+    {
+        return [
+            //Relation::hasMany(''),
+        ];
+    }
+
+    /**
+     * @override
+     *
+     * @return array
+     */
+    public function actions()
+    {
+        return [
+            //Action::create(),
+        ];
+    }
+
+    /**
+     * Boot
+     */
+    public static function boot()
+    {
+        $model = new static::$model();
+
+        static::observeModel($model);
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Model $model
+     */
+    public static function observeModel(Model $model)
+    {
+        $model::observe(new ModelObserver(new static()));
     }
 
     /**
      * @return array
      */
-    public function relations()
+    public function columnNames(): array
     {
-        return [];
+        return collect($this->columns())
+            ->map(function (Column $column) {
+                return $column->name();
+            })
+            ->toArray();
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Model $model
+     *
+     * @return array
+     */
+    public function getFieldAttributes(Model $model)
+    {
+        return collect($model->getAttributes())
+            ->only($this->columnNames())
+            ->toArray();
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Model $model
+     *
+     * @return array
+     */
+    public function getAttributes(Model $model)
+    {
+        return collect($model->getAttributes())
+            ->except($this->columnNames())
+            ->toArray();
     }
 }

@@ -37,7 +37,7 @@ class MakeModel extends GeneratorCommand
         if ($this->option('all')) {
             $this->input->setOption('factory', true);
             $this->input->setOption('definition', true);
-            $this->input->setOption('migration', true);
+            $this->input->setOption('migration', false);
             $this->input->setOption('jobs', true);
             $this->input->setOption('api', true);
             $this->input->setOption('controller', true);
@@ -59,7 +59,7 @@ class MakeModel extends GeneratorCommand
             }
 
             if ($this->option('migration')) {
-                // todo: implement in separate command
+                // todo: implement in separate command (this should happen second)
                 //$this->createMigration($model);
             }
 

@@ -29,4 +29,12 @@ class DummyClass extends BaseModel
     {
         return [];
     }
+
+    /**
+     * @return array
+     */
+    public function actions()
+    {
+        return [];
+    }
 }

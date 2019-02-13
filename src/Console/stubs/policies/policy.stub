@@ -19,8 +19,6 @@ class DummyClass
      */
     public function view(DummyUser $user, DummyModel $dummyModel)
     {
-        // return $user->hasPermissionTo('view model');
-
         return true;
     }
 
@@ -32,8 +30,6 @@ class DummyClass
      */
     public function create(DummyUser $user)
     {
-        // return $user->hasPermissionTo('create model');
-
         return true;
     }
 
@@ -46,8 +42,6 @@ class DummyClass
      */
     public function update(DummyUser $user, DummyModel $dummyModel)
     {
-        // return $user->hasPermissionTo('update model');
-
         return true;
     }
 
@@ -60,8 +54,6 @@ class DummyClass
      */
     public function delete(DummyUser $user, DummyModel $dummyModel)
     {
-        // return $user->hasPermissionTo('delete model');
-
         return true;
     }
 
@@ -74,8 +66,6 @@ class DummyClass
      */
     public function restore(DummyUser $user, DummyModel $dummyModel)
     {
-        // return $user->hasPermissionTo('create model');
-
         return true;
     }
 
@@ -88,8 +78,6 @@ class DummyClass
      */
     public function forceDelete(DummyUser $user, DummyModel $dummyModel)
     {
-        // return $user->hasPermissionTo('delete model');
-
         return true;
     }
 }

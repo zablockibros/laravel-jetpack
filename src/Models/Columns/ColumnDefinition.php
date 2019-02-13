@@ -11,5 +11,4 @@ namespace ZablockiBros\Jetpack\Models\Columns;
  */
 class ColumnDefinition extends \Illuminate\Database\Schema\ColumnDefinition
 {
-
 }

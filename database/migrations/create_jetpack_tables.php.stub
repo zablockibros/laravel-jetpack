@@ -18,7 +18,7 @@ class CreateJetpackTables extends Migration
                 $table->increments('id');
                 $table->unsignedInteger('itemable_type')->index()->nullable();
                 $table->unsignedInteger('itemable_id')->index()->nullable();
-                $table->string('type')->nullable();
+                $table->string('item_type')->nullable();
                 $table->softDeletes();
                 $table->timestamps();
             });

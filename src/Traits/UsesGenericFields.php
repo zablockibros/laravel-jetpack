@@ -35,6 +35,10 @@ trait UsesGenericFields
                 });
         });
 
+        //static::observe(function () {
+        //
+        //});
+
         return;
     }
 

@@ -25,7 +25,7 @@ class JetpackServiceProvider extends ServiceProvider
     {
         // service provider
         $this->publishes([
-            __DIR__ . '/Console/stubs/JetpackServiceProvider.stub' => app_path('Providers/JetpackServiceProvider.php'),
+            __DIR__ . '/Console/stubs/JetpackServiceProvider.stub' => app_path('Jetpack/JetpackServiceProvider.php'),
         ], 'jetpack-provider');
 
         // migrations
@@ -34,18 +34,18 @@ class JetpackServiceProvider extends ServiceProvider
 
             $this->publishes([
                 __DIR__.'/../database/migrations/create_jetpack_tables.php.stub' => database_path('migrations/'.$timestamp.'_create_jetpack_tables.php'),
-            ], 'jetpack-migrations');
+            ], 'migrations');
         }
 
         // config
         $this->publishes([
             __DIR__ . '/../config/jetpack.php' => config_path('jetpack.php'),
-        ], 'jetpack-config');
+        ], 'config');
 
         // seeder
         $this->publishes([
             __DIR__ . '/Console/stubs/RolesAndPermissionsSeeder.stub' => database_path('seeds/RolesAndPermissionsSeeder.php'),
-        ], 'jetpack-role-seeder');
+        ], 'seeder');
     }
 
     /**
